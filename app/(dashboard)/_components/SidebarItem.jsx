@@ -4,7 +4,6 @@ import { usePathname, useRouter } from 'next/navigation';
 const SidebarItem = ({ item }) => {
   const pathname = usePathname();
   const router = useRouter();
-  console.log(pathname, item.href);
 
   const isActive =
     (pathname === '/' && item.href === '/') || (item.href !== '/' && (pathname === item.href || (pathname && pathname.startsWith(item.href))));
