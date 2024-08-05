@@ -1,7 +1,10 @@
 import { auth } from '@clerk/nextjs/server';
 import { db } from '../../../../../../lib/db';
 import { redirect } from 'next/navigation';
+
 import IconBadge from '../../../../../../components/IconBadge';
+import TitleForm from './_components/TitleForm';
+
 import { LayoutDashboard } from 'lucide-react';
 
 const CoursePage = async ({ params }) => {
@@ -44,6 +47,7 @@ const CoursePage = async ({ params }) => {
             <IconBadge icon={LayoutDashboard} />
             <h2 className='text-xl'>Customize your course</h2>
           </div>
+          <TitleForm initialData={course} courseId={courseId} />
         </div>
       </div>
     </div>
