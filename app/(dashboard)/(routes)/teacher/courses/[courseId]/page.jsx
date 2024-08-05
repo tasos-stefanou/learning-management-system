@@ -3,10 +3,11 @@ import { db } from '../../../../../../lib/db';
 import { redirect } from 'next/navigation';
 
 import IconBadge from '../../../../../../components/IconBadge';
-import TitleForm from './_components/TitleForm';
-
 import { LayoutDashboard } from 'lucide-react';
+
+import TitleForm from './_components/TitleForm';
 import DescriptionForm from './_components/DescriptionForm';
+import ImageForm from './_components/ImageForm';
 
 const CoursePage = async ({ params }) => {
   const { courseId } = params;
@@ -50,6 +51,7 @@ const CoursePage = async ({ params }) => {
           </div>
           <TitleForm initialData={course} courseId={courseId} />
           <DescriptionForm initialData={course} courseId={courseId} />
+          <ImageForm initialData={course} courseId={courseId} />
         </div>
       </div>
     </div>
