@@ -5,14 +5,14 @@ import axios from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useWatch } from 'react-hook-form';
 
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../../../../../../../components/ui/form';
-import { Textarea } from '../../../../../../../components/ui/textarea';
-import { Button } from '../../../../../../../components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 import { PencilIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { cn } from '../../../../../../../lib/utils';
+import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   description: z.string().min(3, { message: 'Description must be at least 3 characters long' }).max(255, {
@@ -34,7 +34,6 @@ const DescriptionForm = ({ initialData, courseId }) => {
   };
 
   const onSubmit = async (values) => {
-    console.log(values);
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
       toast.success('Course description updated successfully');
