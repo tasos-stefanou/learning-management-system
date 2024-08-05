@@ -6,6 +6,7 @@ import IconBadge from '../../../../../../components/IconBadge';
 import TitleForm from './_components/TitleForm';
 
 import { LayoutDashboard } from 'lucide-react';
+import DescriptionForm from './_components/DescriptionForm';
 
 const CoursePage = async ({ params }) => {
   const { courseId } = params;
@@ -48,6 +49,7 @@ const CoursePage = async ({ params }) => {
             <h2 className='text-xl'>Customize your course</h2>
           </div>
           <TitleForm initialData={course} courseId={courseId} />
+          <DescriptionForm initialData={course} courseId={courseId} />
         </div>
       </div>
     </div>
