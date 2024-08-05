@@ -2,7 +2,7 @@
 
 import { UserButton } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
-import { Button } from '@/components/ui/button';
+import { Button } from './ui/button';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 
