@@ -1,13 +1,14 @@
 import { auth } from '@clerk/nextjs/server';
-import { db } from '../../../../../../lib/db';
+import { db } from '@/lib/db';
 import { redirect } from 'next/navigation';
 
-import IconBadge from '../../../../../../components/IconBadge';
+import IconBadge from '@/components/IconBadge';
 import { LayoutDashboard } from 'lucide-react';
 
 import TitleForm from './_components/TitleForm';
 import DescriptionForm from './_components/DescriptionForm';
 import ImageForm from './_components/ImageForm';
+import CategoryForm from './_components/CategoryForm';
 
 const CoursePage = async ({ params }) => {
   const { courseId } = params;
@@ -23,6 +24,17 @@ const CoursePage = async ({ params }) => {
       userId,
     },
   });
+
+  const categories = await db.category.findMany({
+    orderBy: {
+      name: 'asc',
+    },
+  });
+
+  const categoriesAsOptions = categories.map((category) => ({
+    value: category.id,
+    label: category.name,
+  }));
 
   if (!course) {
     return redirect('/');
@@ -52,6 +64,7 @@ const CoursePage = async ({ params }) => {
           <TitleForm initialData={course} courseId={courseId} />
           <DescriptionForm initialData={course} courseId={courseId} />
           <ImageForm initialData={course} courseId={courseId} />
+          <CategoryForm initialData={course} courseId={courseId} options={categoriesAsOptions} />
         </div>
       </div>
     </div>
