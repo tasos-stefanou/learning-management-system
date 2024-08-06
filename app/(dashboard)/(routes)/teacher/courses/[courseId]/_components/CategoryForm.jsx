@@ -24,7 +24,7 @@ const CategoryForm = ({ initialData, courseId, options }) => {
   const form = useForm({ resolver: zodResolver(formSchema), defaultValues: { ...initialData } });
   const { isSubmitting, isValid } = form.formState;
 
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
 
   const toggleEditing = () => {
