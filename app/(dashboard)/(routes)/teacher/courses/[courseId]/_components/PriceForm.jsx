@@ -50,7 +50,7 @@ const PriceForm = ({ initialData, courseId }) => {
   });
 
   useEffect(() => {
-    setIsChanged(watchedPrice?.trim() !== initialData?.price);
+    setIsChanged(watchedPrice !== initialData?.price);
   }, [watchedPrice, initialData.price]);
 
   return (
