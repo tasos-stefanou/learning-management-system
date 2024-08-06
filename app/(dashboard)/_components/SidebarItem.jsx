@@ -1,4 +1,4 @@
-import { cn } from '../../../lib/utils';
+import { cn } from '@/lib/utils';
 import { usePathname, useRouter } from 'next/navigation';
 
 const SidebarItem = ({ item }) => {

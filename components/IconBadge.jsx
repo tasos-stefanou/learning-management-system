@@ -1,6 +1,5 @@
 import { cva } from 'class-variance-authority';
-import { cn } from '../lib/utils';
-import { LayoutDashboard, LucideAirplay } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const backgroundVariants = cva('rounded-full flex items-center justify-cennter', {
   variants: {

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { db } from '../../../../lib/db';
-import { trimValuesOfObject } from '../../../../lib/trimValuesOfObject';
+import { db } from '@/lib/db';
+import { trimStringValuesOfObject } from '@/lib/trimStringValuesOfObject';
 import { auth } from '@clerk/nextjs/server';
 
 export async function PATCH(req, { params }) {
@@ -9,7 +9,7 @@ export async function PATCH(req, { params }) {
     const { courseId } = params;
     const values = await req.json();
 
-    const trimmedData = trimValuesOfObject(values);
+    const trimmedData = trimStringValuesOfObject(values);
 
     if (!userId) {
       return new NextResponse('Unauthorized', { status: 401 });
