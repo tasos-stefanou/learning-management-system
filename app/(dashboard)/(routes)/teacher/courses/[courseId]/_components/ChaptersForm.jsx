@@ -59,6 +59,10 @@ const ChapterForm = ({ initialData, courseId }) => {
     setIsUpdating(false);
   };
 
+  const onEdit = async (chapterId) => {
+    router.push(`/teacher/courses/${courseId}/chapters/${chapterId}`);
+  };
+
   return (
     <div className='relative mt-6 border bg-slate-100 rounded-md p-4'>
       {isUpdating && (
@@ -103,7 +107,7 @@ const ChapterForm = ({ initialData, courseId }) => {
       {!isCreating && (
         <div className={cn('text-sm mt-2', !initialData.chapters.length && 'text-slate-500 italic')}>
           {!initialData.chapters.length && 'No chapters'}
-          <ChaptersList items={initialData.chapters} onEdit={() => {}} onReorder={onReorder} />
+          <ChaptersList items={initialData.chapters} onEdit={onEdit} onReorder={onReorder} />
         </div>
       )}
       {!isCreating && <p className='text-xs text-muted-foreground mt-4'>Drag and drop to reorder the chapters</p>}
