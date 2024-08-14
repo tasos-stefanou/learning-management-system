@@ -7,6 +7,7 @@ import { ArrowLeft } from 'lucide-react';
 import IconBadge from '@/components/IconBadge';
 import { LayoutDashboard } from 'lucide-react';
 import ChapterTitleForm from './_components/ChapterTitleForm';
+import ChapterDescriptionForm from './_components/ChapterDescriptionForm';
 
 const ChapterIdPage = async ({ params }) => {
   const { userId } = auth();
@@ -68,9 +69,11 @@ const ChapterIdPage = async ({ params }) => {
             courseId={courseId}
             chapterId={chapterId}
           />
-          {/* <DescriptionForm initialData={course} courseId={courseId} /> */}
-          {/* <ImageForm initialData={course} courseId={courseId} /> */}
-          {/* <CategoryForm initialData={course} courseId={courseId} options={categoriesAsOptions} /> */}
+          <ChapterDescriptionForm
+            initialData={chapter}
+            courseId={courseId}
+            chapterId={chapterId}
+          />
         </div>
         <div className='space-y-6'>
           <div>
