@@ -3,11 +3,13 @@ import { redirect } from 'next/navigation';
 import { db } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Eye, Video } from 'lucide-react';
 import IconBadge from '@/components/IconBadge';
 import { LayoutDashboard } from 'lucide-react';
 import ChapterTitleForm from './_components/ChapterTitleForm';
 import ChapterDescriptionForm from './_components/ChapterDescriptionForm';
+import ChapterAccessForm from './_components/ChapterAccessForm';
+import ChapterVideoForm from './_components/ChapterVideoForm';
 
 const ChapterIdPage = async ({ params }) => {
   const { userId } = auth();
@@ -75,30 +77,27 @@ const ChapterIdPage = async ({ params }) => {
             chapterId={chapterId}
           />
         </div>
-        <div className='space-y-6'>
-          <div>
-            <div className='flex items-center gap-x-2'>
-              {/* <IconBadge icon={ListChecks} />
-              <h2 className='text-xl'>Course chapters</h2> */}
-            </div>
-            {/* <ChaptersForm initialData={course} courseId={courseId} /> */}
+        <div>
+          <div className='flex items-center gap-x-2'>
+            <IconBadge icon={Eye} />
+            <h2 className='text-xl'>Access Settings</h2>
           </div>
-          <div>
-            <div className='flex items-center gap-x-2'>
-              {/* <IconBadge icon={CircleDollarSign} /> */}
-              {/* <h2 className='text-xl'>Sell your course</h2> */}
-            </div>
-            {/* <PriceForm initialData={course} courseId={courseId} /> */}
+          <ChapterAccessForm
+            initialData={chapter}
+            courseId={courseId}
+            chapterId={chapterId}
+          />
+        </div>
+        <div>
+          <div className='flex items-center gap-x-2'>
+            <IconBadge icon={Video} />
+            <h2 className='text-xl'>Add a video</h2>
           </div>
-          <div>
-            <div className='flex items-center gap-x-2'>
-              {/* <IconBadge icon={File} /> */}
-              {/* <h2 className='text-xl'>Resources & Attachments</h2> */}
-            </div>
-            <div>
-              {/* <AttachmentForm initialData={course} courseId={courseId} /> */}
-            </div>
-          </div>
+          <ChapterVideoForm
+            initialData={chapter}
+            courseId={courseId}
+            chapterId={chapterId}
+          />
         </div>
       </div>
     </div>

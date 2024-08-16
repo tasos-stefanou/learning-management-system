@@ -1,13 +1,9 @@
 'use client';
 
 import * as z from 'zod';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useWatch } from 'react-hook-form';
-import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
-import { PencilIcon } from 'lucide-react';
 
 import {
   Form,
@@ -15,27 +11,26 @@ import {
   FormField,
   FormItem,
   FormMessage,
+  FormDescription,
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
+import { PencilIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { Editor } from '@/components/Editor';
-import { Preview } from '@/components/Preview';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const formSchema = z.object({
-  description: z
-    .string()
-    .min(3, { message: 'Description must be at least 3 characters long' })
-    .max(255, {
-      message: 'Description must be at most 255 characters long',
-    }),
+  isFree: z.boolean().default(false),
 });
 
-const ChapterDescriptionForm = ({ initialData, courseId, chapterId }) => {
+const ChapterAccessForm = ({ initialData, courseId, chapterId }) => {
   const router = useRouter();
 
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: { ...initialData },
+    defaultValues: { isFree: !!initialData.isFree },
   });
   const { isSubmitting, isValid } = form.formState;
 
@@ -52,51 +47,49 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }) => {
         `/api/courses/${courseId}/chapters/${chapterId}`,
         values
       );
-      toast.success('Chapter description updated successfully');
+      toast.success('Chapter access updated successfully');
       toggleEditing();
       router.refresh();
     } catch (error) {
-      toast.error('An error occurred while updating the course description');
+      toast.error('An error occurred while updating the course access');
       console.error(error);
     }
   };
 
-  const watchedDescription = useWatch({
+  const watchedIsFree = useWatch({
     control: form.control,
-    name: 'description',
+    name: 'isFree',
   });
 
   useEffect(() => {
-    setIsChanged(watchedDescription?.trim() !== initialData?.description);
-  }, [watchedDescription, initialData.description]);
+    setIsChanged(watchedIsFree !== !!initialData?.isFree);
+  }, [watchedIsFree, initialData.isFree]);
 
   return (
     <div className='mt-6 border bg-slate-100 rounded-md p-4'>
       <div className='font-medium flex items-center justify-between'>
-        Chapter description
+        Chapter access
         <Button variant='ghost' onClick={toggleEditing}>
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <PencilIcon className='h-4 w-4 mr-2' />
-              Edit description
+              Edit access
             </>
           )}
         </Button>
       </div>
       {!isEditing && (
-        <div
+        <p
           className={cn(
             'text-sm mt-2',
-            !initialData.description && 'text-slate-500 italic'
+            !initialData.isFree && 'text-slate-500 italic'
           )}
         >
-          {!initialData.description && 'No description'}
-          {initialData.description && (
-            <Preview value={initialData.description} />
-          )}
-        </div>
+          {!initialData.isFree && 'This chapter is not free.'}
+          {initialData.isFree && 'This chapter is free for preview.'}
+        </p>
       )}
       {isEditing && (
         <Form {...form}>
@@ -106,13 +99,21 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }) => {
           >
             <FormField
               control={form.control}
-              name='description'
+              name='isFree'
               render={({ field }) => (
-                <FormItem>
+                <FormItem className='flex flex-row  items-center space-x-3 space-y-0 roundes-md border p-4'>
                   <FormControl>
-                    <Editor {...field} />
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
                   </FormControl>
-                  <FormMessage />
+                  <div className='space-y-1 leading-none'>
+                    <FormDescription>
+                      Check this box if you want to make this chapter free for
+                      preview.
+                    </FormDescription>
+                  </div>
                 </FormItem>
               )}
             />
@@ -131,4 +132,4 @@ const ChapterDescriptionForm = ({ initialData, courseId, chapterId }) => {
   );
 };
 
-export default ChapterDescriptionForm;
+export default ChapterAccessForm;
