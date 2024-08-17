@@ -50,7 +50,7 @@ export async function PATCH(req, { params }) {
       });
 
       if (existingMuxData) {
-        await video.assets.del(existingMuxData.assetId);
+        await video.assets.delete(existingMuxData.assetId);
         await db.muxData.delete({
           where: {
             id: existingMuxData.id,
@@ -71,6 +71,88 @@ export async function PATCH(req, { params }) {
         },
       });
     }
+    return NextResponse.json(chapter);
+  } catch (error) {
+    console.error('[COURSES_CHAPTER_ID]', error);
+    return new NextResponse('Internal Error', { status: 500 });
+  }
+}
+
+// TODO: write that in a cleaner way
+export async function DELETE(req, { params }) {
+  try {
+    const { userId } = auth();
+    const { courseId, chapterId } = params;
+
+    if (!userId) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
+    const ownCourse = await db.course.findUnique({
+      where: {
+        id: courseId,
+        userId,
+      },
+    });
+
+    if (!ownCourse) {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
+    const chapter = await db.chapter.findUnique({
+      where: {
+        id: chapterId,
+        courseId,
+      },
+    });
+
+    if (!chapter) {
+      return new NextResponse('Not found', { status: 404 });
+    }
+
+    const muxData = await db.muxData.findFirst({
+      where: {
+        chapterId,
+      },
+      select: {
+        assetId: true,
+      },
+    });
+
+    if (muxData) {
+      await video.assets.delete(muxData.assetId);
+      await db.muxData.delete({
+        where: {
+          chapterId,
+        },
+      });
+    }
+
+    await db.chapter.delete({
+      where: {
+        id: chapterId,
+      },
+    });
+
+    //TODO: maybe make that a separate function to check if there are any published chapters in the course
+    const publishedChaptersInCourse = await db.chapter.findMany({
+      where: {
+        courseId,
+        isPublished: true,
+      },
+    });
+
+    if (publishedChaptersInCourse.length === 0) {
+      await db.course.update({
+        where: {
+          id: courseId,
+        },
+        data: {
+          isPublished: false,
+        },
+      });
+    }
+
     return NextResponse.json(chapter);
   } catch (error) {
     console.error('[COURSES_CHAPTER_ID]', error);

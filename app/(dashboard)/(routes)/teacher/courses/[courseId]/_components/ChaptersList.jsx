@@ -1,7 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from '@hello-pangea/dnd';
 
 import { cn } from '@/lib/utils';
 import { Grip, PencilIcon } from 'lucide-react';
@@ -55,7 +60,11 @@ const ChaptersList = ({ items, onEdit, onReorder }) => {
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
             {chapters.map((chapter, index) => (
-              <Draggable key={chapter.id} draggableId={chapter.id} index={index}>
+              <Draggable
+                key={chapter.id}
+                draggableId={chapter.id}
+                index={index}
+              >
                 {(provided) => (
                   <div
                     ref={provided.innerRef}
@@ -64,7 +73,8 @@ const ChaptersList = ({ items, onEdit, onReorder }) => {
                       'flex items-center ',
                       'bg-slate-200 border border-slate-200 text-slate-700 rounded-md mb-4 text-sm',
                       'hover:bg-slate-200',
-                      chapter.isPublished && 'bg-sky-100 border-sky-200 text-sky-700'
+                      chapter.isPublished &&
+                        'bg-sky-100 border-sky-200 text-sky-700'
                     )}
                   >
                     <div
@@ -77,10 +87,20 @@ const ChaptersList = ({ items, onEdit, onReorder }) => {
                       <Grip className='h-5 w-5' />
                     </div>
                     {chapter.title}
-                    <div className='flex pr-2 ml-auto'>
+                    <div className='flex pr-2 ml-auto space-x-1'>
                       {chapter.isFree && <Badge>Free</Badge>}
-                      <Badge className={cn('bg-slate-500', chapter.isPublished && 'bg-sky-700')}>{chapter.isPublished ? 'Published' : 'Draft'}</Badge>
-                      <PencilIcon className='ml-2 h-4 w-4 hover:opacity-75 cursor-pointer transition' onClick={() => onEdit(chapter.id)} />
+                      <Badge
+                        className={cn(
+                          'bg-slate-500',
+                          chapter.isPublished && 'bg-sky-700'
+                        )}
+                      >
+                        {chapter.isPublished ? 'Published' : 'Draft'}
+                      </Badge>
+                      <PencilIcon
+                        className='ml-2 h-4 w-4 hover:opacity-75 cursor-pointer transition'
+                        onClick={() => onEdit(chapter.id)}
+                      />
                     </div>
                   </div>
                 )}
