@@ -12,6 +12,29 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
+  const onPublishOrUnpublish = async () => {
+    setIsLoading(true);
+    try {
+      if (isPublished) {
+        await axios.patch(
+          `/api/courses/${courseId}/chapters/${chapterId}/unpublish`
+        );
+        toast.success('Chapter unpublished successfully');
+      } else {
+        await axios.patch(
+          `/api/courses/${courseId}/chapters/${chapterId}/publish`
+        );
+        toast.success('Chapter published successfully');
+      }
+      router.refresh();
+    } catch (error) {
+      toast.error('An error occurred while publishing the chapter');
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const onDelete = async () => {
     setIsLoading(true);
     try {
@@ -31,7 +54,7 @@ const ChapterActions = ({ disabled, courseId, chapterId, isPublished }) => {
     <div className='flex items-center gap-x-2'>
       <Button
         size='sm'
-        onClick={() => console.log('A')}
+        onClick={onPublishOrUnpublish}
         disabled={disabled || isLoading}
         variant='outline'
       >
