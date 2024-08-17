@@ -11,7 +11,6 @@ import {
 import { cn } from '@/lib/utils';
 import { Grip, PencilIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { set } from 'zod';
 
 const ChaptersList = ({ items, onEdit, onReorder }) => {
   const [isMounted, setIsMounted] = useState(false);
@@ -86,7 +85,7 @@ const ChaptersList = ({ items, onEdit, onReorder }) => {
                     >
                       <Grip className='h-5 w-5' />
                     </div>
-                    {chapter.title}
+                    <div className='px-2'>{chapter.title}</div>
                     <div className='flex pr-2 ml-auto space-x-1'>
                       {chapter.isFree && <Badge>Free</Badge>}
                       <Badge
