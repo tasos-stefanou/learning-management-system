@@ -1,15 +1,18 @@
 'use client';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-
-import { Button } from '@/components/ui/button';
-import { TrashIcon } from 'lucide-react';
-import ConfirmCourseDeletionModal from '@/components/modals/ConfirmCourseDeletionModal';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
+import { Button } from '@/components/ui/button';
+import ConfirmCourseDeletionModal from '@/components/modals/ConfirmCourseDeletionModal';
+import { useConfettiStore } from '@/hooks/useConfettiStore';
+
+import { TrashIcon } from 'lucide-react';
+
 const CourseActions = ({ disabled, courseId, isPublished }) => {
   const router = useRouter();
+  const confetti = useConfettiStore();
   const [isLoading, setIsLoading] = useState(false);
 
   const onPublishOrUnpublish = async () => {
@@ -21,6 +24,7 @@ const CourseActions = ({ disabled, courseId, isPublished }) => {
       } else {
         await axios.patch(`/api/courses/${courseId}/publish`);
         toast.success('Course published successfully');
+        confetti.onOpen();
       }
       router.refresh();
     } catch (error) {
