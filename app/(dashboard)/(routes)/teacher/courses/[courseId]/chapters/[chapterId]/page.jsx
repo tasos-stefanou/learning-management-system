@@ -50,7 +50,6 @@ const ChapterIdPage = async ({ params }) => {
         <Banner
           variant='warning'
           label='This chapter is not published yet. Students will not be able to access it.'
-          ß
         />
       )}
       <div className='p-6'>
