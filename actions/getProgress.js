@@ -5,7 +5,7 @@ const getProgress = async (userId, courseId) => {
     const publishedChapters = await db.chapter.findMany({
       where: {
         courseId,
-        published: true,
+        isPublished: true,
       },
       select: {
         id: true,
@@ -24,9 +24,11 @@ const getProgress = async (userId, courseId) => {
       },
     });
 
-    return (progressPercentage = Math.round(
+    const progressPercentage = Math.round(
       (validCompletedChapterIds / publishedChapterIds.length) * 100
-    ));
+    );
+
+    return progressPercentage;
   } catch (error) {
     console.log('[GET_PROGRESS]', error);
     return 0;
