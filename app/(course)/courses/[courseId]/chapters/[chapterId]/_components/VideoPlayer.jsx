@@ -19,22 +19,15 @@ const VideoPlayer = ({
   isLocked,
   completeOnEnd,
 }) => {
-  const [isReady, setIsReady] = useState(true);
-
   return (
     <div className='relative aspect-video'>
-      {!isReady && !isLocked && (
-        <div className='absolute inset-0 flex items-center justify-center bg-slate-800'>
-          <Loader2 className='h-8 w-8 animate-spin text-secondary' />
-        </div>
-      )}
       {isLocked && (
         <div className='absolute inset-0 flex items-center justify-center bg-slate-800 flex-col gap-y-2 text-secondary'>
           <Lock className='h-8 w-8 text-secondary' />
           <p className='text-sm'>This chapter is locked</p>
         </div>
       )}
-      {isReady && !isLocked && (
+      {!isLocked && (
         <MuxPlayer
           streamType='on-demand'
           playbackId={playbackId}
