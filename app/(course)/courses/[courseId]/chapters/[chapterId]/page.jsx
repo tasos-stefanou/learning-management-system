@@ -1,8 +1,15 @@
-import { auth } from '@clerk/nextjs/server';
-import { getChapter } from '@/actions/getChapter';
 import { redirect } from 'next/navigation';
+import { auth } from '@clerk/nextjs/server';
+
+import { getChapter } from '@/actions/getChapter';
+
+import { Separator } from '@/components/ui/separator';
+
+import { Preview } from '@/components/Preview';
 import { Banner } from '@/components/Banner';
 import VideoPlayer from './_components/VideoPlayer';
+import CourseEnrollButton from './_components/CourseEnrollButton';
+import { FileIcon } from 'lucide-react';
 
 const ChapterIdPage = async ({ params }) => {
   const { userId } = auth();
@@ -27,7 +34,6 @@ const ChapterIdPage = async ({ params }) => {
   }
 
   const isLocked = !chapter.isFree && !purchase;
-  const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 
   return (
     <div>
@@ -53,8 +59,39 @@ const ChapterIdPage = async ({ params }) => {
             nextChapterId={nextChapter?.id}
             playbackId={muxData?.playbackId}
             isLocked={isLocked}
-            completeOnEnd={completeOnEnd}
           />
+        </div>
+        <div>
+          <div className='p-4 flex flex-col md:flex-row items-center justify-between'>
+            <h2 className='text-2xl font-semibold mb-2'>{chapter.title}</h2>
+            {purchase ? (
+              <> TODO: add course progress button </>
+            ) : (
+              <CourseEnrollButton courseId={courseId} price={course.price} />
+            )}
+          </div>
+          <Separator />
+          <div>
+            <Preview value={chapter.description} />
+          </div>
+          {!!attachments.length && (
+            <>
+              <Separator />
+              <div className='p-4 space-y-1'>
+                {attachments.map((attachment) => (
+                  <a
+                    key={attachment.id}
+                    href={attachment.url}
+                    target='_blank'
+                    className='flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline'
+                  >
+                    <FileIcon className='h-6 w-6 mr-2' />
+                    <p className='line-clamp-1'>{attachment.name}</p>
+                  </a>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
