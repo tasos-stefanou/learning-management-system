@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { formatPrice } from '@/lib/format';
+import { formatPrice } from '@/lib/formatPrice';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import toast from 'react-hot-toast';

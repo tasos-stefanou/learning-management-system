@@ -12,7 +12,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 
 import { cn } from '@/lib/utils';
-import { formatPrice } from '@/lib/format';
+import { formatPrice } from '@/lib/formatPrice';
 
 export const columns = [
   {

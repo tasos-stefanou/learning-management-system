@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import IconBadge from './IconBadge';
 import { BookOpen } from 'lucide-react';
-import { formatPrice } from '@/lib/format';
+import { formatPrice } from '@/lib/formatPrice';
 
 const CourseCard = ({ course }) => {
   const { title, category, chapters, progress, price, imageUrl } = course;
