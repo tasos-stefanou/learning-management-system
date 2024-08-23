@@ -36,12 +36,13 @@ const VideoPlayer = ({
       )}
       {isReady && !isLocked && (
         <MuxPlayer
-          className={cn(!isReady && 'hidden')}
-          title={title}
+          streamType='on-demand'
           playbackId={playbackId}
-          //   TODO: check why this is not working
-          //   onCanPlay={() => setIsReady(true)}
-          onEnded={completeOnEnd}
+          className={cn(!isReady && 'hidden')}
+          metadataVideoTitle={title}
+          // primaryColor='#FFFFFF'
+          // secondaryColor='#000000'
+          onEnded={() => console.log('Video ended')}
           autoPlay
         />
       )}
