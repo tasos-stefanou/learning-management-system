@@ -31,7 +31,6 @@ const VideoPlayer = ({
         <MuxPlayer
           streamType='on-demand'
           playbackId={playbackId}
-          className={cn(!isReady && 'hidden')}
           metadataVideoTitle={title}
           // primaryColor='#FFFFFF'
           // secondaryColor='#000000'
