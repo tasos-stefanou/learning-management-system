@@ -3,11 +3,14 @@ import Link from 'next/link';
 import IconBadge from './IconBadge';
 import { BookOpen } from 'lucide-react';
 import { formatPrice } from '@/lib/formatPrice';
+import CourseProgress from './CourseProgress';
 
 const CourseCard = ({ course }) => {
   const { title, category, chapters, progress, price, imageUrl } = course;
   const chaptersLength = chapters.length;
   const categoryName = category.name;
+
+  const progressBarVariant = progress === 100 ? 'success' : 'default';
 
   return (
     <Link href={`/courses/${course.id}`}>
@@ -34,7 +37,11 @@ const CourseCard = ({ course }) => {
             </div>
           </div>
           {progress !== null ? (
-            <>{/* TODO: add progress component */}</>
+            <CourseProgress
+              size='sm'
+              value={progress}
+              variant={progressBarVariant}
+            />
           ) : (
             <p className='text-md md:text-sm font-medium text-slate-700'>
               {formatPrice(price)}
