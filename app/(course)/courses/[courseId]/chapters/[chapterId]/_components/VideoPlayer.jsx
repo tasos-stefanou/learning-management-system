@@ -1,13 +1,11 @@
 'use client';
 
 import axios from 'axios';
-import MuxPlayer from '@mux/mux-player-react';
-import { useState } from 'react';
-import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { Loader2, Lock } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import MuxPlayer from '@mux/mux-player-react';
+import { Lock } from 'lucide-react';
 
-import { cn } from '@/lib/utils';
 import { useConfettiStore } from '@/hooks/useConfettiStore';
 
 const VideoPlayer = ({
@@ -17,8 +15,41 @@ const VideoPlayer = ({
   nextChapterId,
   playbackId,
   isLocked,
-  completeOnEnd,
+  isCompleted,
 }) => {
+  const router = useRouter();
+  const confetti = useConfettiStore();
+
+  const markChapterAsCompleted = async () => {
+    if (isCompleted) return;
+
+    try {
+      await axios.put(
+        `/api/courses/${courseId}/chapters/${chapterId}/progress`,
+        {
+          isCompleted: true,
+        }
+      );
+      if (!nextChapterId) {
+        confetti.onOpen();
+        toast.success('Course completed');
+      }
+
+      router.refresh();
+
+      // TODO: This is a hacky way to navigate to the next chapter and refresh the data of the current page
+      if (nextChapterId) {
+        toast.success('Course progress updated');
+        setTimeout(() => {
+          router.push(`/courses/${courseId}/chapters/${nextChapterId}`);
+        }, 500); // Adjust the delay as needed
+      }
+    } catch (error) {
+      toast.error(
+        'An error occurred while trying to mark this chapter as completed'
+      );
+    }
+  };
   return (
     <div className='relative aspect-video'>
       {isLocked && (
@@ -34,8 +65,8 @@ const VideoPlayer = ({
           metadataVideoTitle={title}
           // primaryColor='#FFFFFF'
           // secondaryColor='#000000'
-          onEnded={() => console.log('Video ended')}
-          autoPlay
+          onEnded={markChapterAsCompleted}
+          // autoPlay
         />
       )}
     </div>

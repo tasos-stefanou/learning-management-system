@@ -59,6 +59,7 @@ const ChapterIdPage = async ({ params }) => {
             nextChapterId={nextChapter?.id}
             playbackId={muxData?.playbackId}
             isLocked={isLocked}
+            isCompleted={!!userProgress?.isCompleted}
           />
         </div>
         <div>
