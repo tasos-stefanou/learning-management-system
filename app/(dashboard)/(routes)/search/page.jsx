@@ -4,9 +4,9 @@ import { redirect } from 'next/navigation';
 import { getAllPublishedCourses } from '@/actions/getAllPublishedCourses';
 
 import SearchInput from '@/components/SearchInput';
+import CoursesList from '@/components/CoursesList';
 
 import Categories from './_components/Categories';
-import CoursesList from './_components/CoursesList';
 
 const SearchPage = async ({ searchParams }) => {
   const { title, categoryId } = searchParams;
