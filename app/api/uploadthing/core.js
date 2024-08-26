@@ -1,12 +1,13 @@
 import { createUploadthing } from 'uploadthing/next';
-import { UploadThingError } from 'uploadthing/server';
 import { auth } from '@clerk/nextjs/server';
+import { isTeacher } from '@/lib/teacher';
 
 const f = createUploadthing();
 
 const handleAuth = () => {
   const { userId } = auth();
-  if (!userId) {
+  const isAuthorized = isTeacher(userId);
+  if (!userId || !isAuthorized) {
     throw new Error('Unauthorized', { status: 401 });
   }
   return { userId };

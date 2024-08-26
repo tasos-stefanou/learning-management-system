@@ -38,3 +38,7 @@ next-env.d.ts
 \@/components/ui/
 
 scripts/seed.js
+
+lms.code-workspace
+
+.env
