@@ -41,7 +41,6 @@ const CourseActions = ({ disabled, courseId, isPublished }) => {
       await axios.delete(`/api/courses/${courseId}`);
       toast.success('Course deleted successfully');
       router.refresh();
-      router.push(`/teacher/courses/`);
     } catch (error) {
       toast.error('An error occurred while deleting the course');
       console.error(error);

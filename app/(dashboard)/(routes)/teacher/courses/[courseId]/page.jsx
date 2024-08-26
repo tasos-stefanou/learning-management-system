@@ -59,7 +59,7 @@ const CoursePage = async ({ params }) => {
   }));
 
   if (!course) {
-    return redirect('/');
+    return redirect('/teacher/courses');
   }
 
   const requiredFields = [
