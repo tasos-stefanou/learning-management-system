@@ -1,3 +1,5 @@
+import { unstable_noStore as noStore } from 'next/cache';
+
 import { DataTable } from './_components/DataTable';
 import { columns } from './_components/columns';
 import { redirect } from 'next/navigation';
@@ -5,6 +7,7 @@ import { db } from '@/lib/db';
 import { auth } from '@clerk/nextjs/server';
 
 const CategoriesPage = async () => {
+  noStore();
   const { userId } = auth();
 
   if (!userId) {
